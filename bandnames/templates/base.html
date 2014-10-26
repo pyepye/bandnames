@@ -9,8 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    {#<!--<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">-->#}
-    <link href="http://mattpye.com/bandnames/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -21,12 +20,6 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <!-- This file store project specific CSS -->
-    <link rel="stylesheet" href="http://mattpye.com/rmusic/js/chosen/chosen.css" type="text/css" media="screen" />
-
-    {#<!--<link href="{% static 'css/rmusicify.css' %}" rel="stylesheet">-->#}
-    <link href="http://mattpye.com/rmusic/css/rmusicify.css" rel="stylesheet">
 
     <!-- Use this to quickly test CSS changes in a template,
         then move to rmusicify.css -->
@@ -77,12 +70,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     {#<!--<script src="{% static 'js/bootstrap.min.js' %}"></script>-->#}
-    <script src="http://mattpye.com/rmusic/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="http://mattpye.com/rmusic/js/chosen/chosen.jquery.js"></script>
-    <script type="text/javascript">
-        $(".chosen").chosen();
-    </script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     {% block extra_js %}{% endblock extra_js %}
   </body>

@@ -24,7 +24,6 @@ def get_env_setting(setting):
 
 STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static')),
-    # normpath(join(DJANGO_ROOT, 'assets')),
 )
 
 ########## HOST CONFIGURATION

@@ -246,8 +246,5 @@ INSTALLED_APPS += (
     # 'south',
 
 )
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# Don't need to use South when setting up a test database.
-SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
