@@ -1,0 +1,89 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Band Names{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    {#<!--<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">-->#}
+    <link href="http://mattpye.com/bandnames/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- This file store project specific CSS -->
+    <link rel="stylesheet" href="http://mattpye.com/rmusic/js/chosen/chosen.css" type="text/css" media="screen" />
+
+    {#<!--<link href="{% static 'css/rmusicify.css' %}" rel="stylesheet">-->#}
+    <link href="http://mattpye.com/rmusic/css/rmusicify.css" rel="stylesheet">
+
+    <!-- Use this to quickly test CSS changes in a template,
+        then move to rmusicify.css -->
+    {% block extra_css %}{% endblock extra_css %}
+  </head>
+
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Band Names</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/list/">Band List</a></li>
+            <!--<li><a href="/spotify/">Rdio</a></li>-->
+            <!--<li><a href="#contact">Contact</a></li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>{% block page_title %}Welcome to Band Names{% endblock page_title %}</h1>
+
+      {% block content %}
+        <p>We collect the reasons that bands have thier names.</p>
+
+        <h3>Help us out</h3>
+        <p>We want to get our list of bands / artists bigger and better so please help us out.</p>
+        <p>Here is what you can do:</p>
+        <ul>
+          <li><a href="/submit/">Submit new bands</a>. We have a nice easy form to help you do it.</br>Please make sure give us a source so we can make sure everything is correct</li>
+          <li>Use the report button when you know a reason a band got there name is wrong.</br>Again make sure you give us a source we can confirm what you're saying is true
+        </ul>
+      {% endblock content %}
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    {#<!--<script src="{% static 'js/bootstrap.min.js' %}"></script>-->#}
+    <script src="http://mattpye.com/rmusic/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="http://mattpye.com/rmusic/js/chosen/chosen.jquery.js"></script>
+    <script type="text/javascript">
+        $(".chosen").chosen();
+    </script>
+
+    {% block extra_js %}{% endblock extra_js %}
+  </body>
+</html>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}All the Bands{% endblock title %}
+
+{% block page_title %}All the Bands{% endblock page_title %}
+
+{% block content %}
+
+    <form class="bs-component" method="get">
+        <div class="form-group">
+            <div class="input-group">
+                <input name="search" type="text" class="form-control" value={{ search_term }}>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default">Search</button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+    {% if search_term %}
+        <h3>Search results for the search '{{ search_term }}':</h3>
+
+    {% endif %}
+
+    {% for band in bands %}
+        <div class="col-lg-6">
+            <div class="bs-component">
+                <div class="well">
+                    <h3><a href="/band/{{ band.name|urlencode }}">{{ band.name }}</a></h3>
+                    <p>{{ band.reason|truncatechars:150 }}</p>
+                    <p><a href="{{ band.source }}">source</a></p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Sorry, no bands were found with the name {{ search_term }}.</p>
+    {% endfor %}
+    {% if bands|length > 1 %}
+        <ul class="pagination pagination-lg">
+            {% if bands.has_previous %}
+                <li><a href="?{% if search_term %}search={{ search_term }}&{% endif %}page={{ bands.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">&laquo;</a></li>
+            {% endif %}
+
+            {% for num in bands.paginator.page_range %}
+                {% ifequal num bands.number %}
+                    <li class="active"><a href="#">{{ num }}<span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li><a href="?{% if search_term %}search={{ search_term }}&{% endif %}page={{ num }}">{{ num }}</a></li>
+                {% endifequal %}
+            {% endfor %}
+
+            {% if bands.has_next %}
+                <li><a href="?page={{ bands.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><a href="#">&raquo;</a></li>
+            {% endif %}
+        <ul>
+    {% endif %}
+
+{% endblock content %}

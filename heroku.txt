@@ -1,0 +1,10 @@
+App URL: http://band-names.herokuapp.com
+Git URL: git@heroku.com:band-names.git
+
+Helpful Commands
+----------------
+git push -f heroku master
+
+heroku run --app band-names python bandnames/manage.py syncdb --settings=bandnames.settings.production
+
+heroku run --app band-names python bandnames/manage.py collectstatic --noinput --settings=bandnames.settings.production

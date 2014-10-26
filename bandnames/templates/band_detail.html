@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}All the Bands{% endblock title %}
+
+{% block page_title %}All the Bands{% endblock page_title %}
+
+{% block content %}
+    <div class="bs-component">
+        <div class="well">
+            <h3>{{ band.name }}</h3>
+            <p>{{ band.reason }}</p>
+            <p><a href="{{ band.source }}">source</a></p>
+        </div>
+    </div>
+{% endblock content %}
