@@ -12,7 +12,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
     url(r'^list/$', BandList.as_view(), name='band_list'),
-    url(r'^band/(?P<band_name>[-\w]+)/$', BandDetail.as_view(), name='band'),
+    url(r'^band/(?P<band_id>\d+)/$', BandDetail.as_view(), name='bandinfo'),
     # Examples:
     # url(r'^$', 'bandnames.views.home', name='home'),
     # url(r'^bandnames/', include('bandnames.foo.urls')),

@@ -1,0 +1,15 @@
+.container form.search {
+  margin: 30px 20px;
+}
+
+.well.bands {
+  height: 190px;
+}
+
+.big-band .well p.links {
+  float: right;
+}
+
+.clear {
+    clear: both;
+}

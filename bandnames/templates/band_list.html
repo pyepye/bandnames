@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}All the Bands{% endblock title %}
+{% block title %}Band Names | All the Bands{% endblock title %}
 
 {% block page_title %}All the Bands{% endblock page_title %}
 
 {% block content %}
 
-    <form class="bs-component" method="get">
+    <form class="search" method="get">
         <div class="form-group">
             <div class="input-group">
                 <input name="search" type="text" class="form-control" value={{ search_term }}>
@@ -24,13 +24,12 @@
     {% endif %}
 
     {% for band in bands %}
+        {% url 'bandinfo' band.pk as band_url %}
         <div class="col-lg-6">
-            <div class="bs-component">
-                <div class="well">
-                    <h3><a href="/band/{{ band.name|urlencode }}">{{ band.name }}</a></h3>
-                    <p>{{ band.reason|truncatechars:150 }}</p>
-                    <p><a href="{{ band.source }}">source</a></p>
-                </div>
+            <div class="well bands">
+                <h3><a href="{{ band_url }}">{{ band.name }}</a></h3>
+                <p>{{ band.reason|truncatechars:150 }}</p>
+                <p><a href="{{ band_url }}">view</a></p>
             </div>
         </div>
     {% empty %}

@@ -39,5 +39,5 @@ class BandDetail(TemplateView):
     template_name = "band_detail.html"
 
     def get_context_data(self, **context):
-        context['band'] = Bands.objects.get(name=context.get('band_name'))
+        context['band'] = Bands.objects.get(pk=context.get('band_id'))
         return context
