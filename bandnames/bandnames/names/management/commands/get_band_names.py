@@ -111,11 +111,12 @@ def get_band_wiki_songs():
 def get_band_rateyourmusic():
     artist_rows = []
     grabbed_artists = 0
+    import ipdb; ipdb.set_trace()
     for num in range(1, 11):
         url = ('http://rateyourmusic.com/list/DanFalco/why_are_they_called_dur'
                'an_duran__a_guide_to_band_name_etymologies/{}/'.format(num))
         logger.info(url)
-        req = requests.get(url, headers={'User-Agent': "Magic Browser"})
+        req = requests.get(url, headers={'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:33.0) Gecko/20100101 Firefox/33.0"})
         print req.status_code
         if req.status_code == 200:
             html = req.content
@@ -147,6 +148,7 @@ def add_band(name, reason, source, scrapped):
             source=source,
             scrapped_from=scrapped,
         )
+        print '{} - {}'.format(name, scrapped)
         logger.info('Band added: {} - {}'.format(
             name, source)
         )
