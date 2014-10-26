@@ -1,1 +1,1 @@
-web: web: python musicify/manage.py collectstatic --noinput --settings=rmusicify.settings.production; gunicorn --pythonpath=./rmusicify rmusicify.wsgi:application
+web: web: python bandnames/manage.py collectstatic --noinput --settings=bandnames.settings.production --pythonpath=./band-names/bandnames; gunicorn --pythonpath=./bandnames bandnames.wsgi:application
