@@ -39,7 +39,10 @@ def get_band_wiki():
 
             if print_li:
                 ignore = ['See also', 'References', 'Bibliography']
-                if li.find_previous('h2').find_next('span').string not in ignore:
+                if (
+                    li.find_previous('h2').find_next('span').string not in
+                    ignore
+                ):
                     anchors = li.find_all('a')
                     last_anchor = li.find_all('a')[len(anchors)-1]
                     ref_url = get_wiki_ref_from_achor(soup, last_anchor)
@@ -81,7 +84,10 @@ def get_band_wiki_songs():
             except (AttributeError, KeyError):
                 pass
             if print_li:
-                ignore = ['Approximations and partial matches', 'Exact matches']
+                ignore = [
+                    'Approximations and partial matches',
+                    'Exact matches'
+                ]
                 if li.find_previous('h2').find_next('span').string in ignore:
                     anchors = li.find_all('a')
                     last_anchor = li.find_all('a')[len(anchors)-1]
@@ -109,10 +115,7 @@ def get_band_rateyourmusic():
         url = ('http://rateyourmusic.com/list/DanFalco/why_are_they_called_dur'
                'an_duran__a_guide_to_band_name_etymologies/{}/'.format(num))
         logger.info(url)
-        req = requests.get(
-            url,
-            headers={'User-Agent': "Magic Browser"}
-        )
+        req = requests.get(url, headers={'User-Agent': "Magic Browser"})
         print req.status_code
         if req.status_code == 200:
             html = req.content
@@ -124,7 +127,9 @@ def get_band_rateyourmusic():
 
             for artist_html in artist_rows:
                 artist_info = artist_html.split('list_artist">')[1]
-                artist_name, artist_desc = artist_info.split('</a></b><br><br>')
+                artist_name, artist_desc = artist_info.split(
+                    '</a></b><br><br>'
+                )
                 artist_desc = fix_html_codes(artist_desc)
                 add_band(artist_name, artist_desc, url, url)
 
