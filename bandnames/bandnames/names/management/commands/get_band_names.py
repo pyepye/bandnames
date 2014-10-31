@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 import re
 import logging
-
-from django.core.management.base import NoArgsCommand
+import requests
+import pylast
+import urllib
+from os.path import join, exists
 
 from bs4 import BeautifulSoup
-import requests
+
+from django.conf import settings
+from django.core.management.base import NoArgsCommand
 
 from bandnames.names.models import Bands
 
@@ -15,16 +19,15 @@ logger = logging.getLogger(__name__)
 class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
-        get_band_rateyourmusic()
         get_band_wiki()
         get_band_wiki_songs()
+        get_band_rateyourmusic()
 
 
 def get_band_wiki():
     url = 'http://en.wikipedia.org/wiki/List_of_band_name_etymologies'
     logger.info(url)
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
-    print req.status_code
     if req.status_code == 200:
         soup = BeautifulSoup(req.content)
         section = soup.find(id="mw-content-text")
@@ -70,7 +73,6 @@ def get_band_wiki_songs():
            'bands%27_songs')
     logger.info(url)
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
-    print req.status_code
     if req.status_code == 200:
         soup = BeautifulSoup(req.content)
         section = soup.find(id="mw-content-text")
@@ -111,13 +113,11 @@ def get_band_wiki_songs():
 def get_band_rateyourmusic():
     artist_rows = []
     grabbed_artists = 0
-    import ipdb; ipdb.set_trace()
     for num in range(1, 11):
         url = ('http://rateyourmusic.com/list/DanFalco/why_are_they_called_dur'
                'an_duran__a_guide_to_band_name_etymologies/{}/'.format(num))
         logger.info(url)
-        req = requests.get(url, headers={'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:33.0) Gecko/20100101 Firefox/33.0"})
-        print req.status_code
+        req = requests.get(url, headers={'User-Agent': "Magic Browser"})
         if req.status_code == 200:
             html = req.content
 
@@ -138,20 +138,20 @@ def get_band_rateyourmusic():
 def add_band(name, reason, source, scrapped):
     try:
         band = Bands.objects.get(name=name)
-        logger.info('Band already exits with name {}'.format(
-            name, scrapped)
+        logger.info(
+            'Band already exits with name {}'.format(name, scrapped)
         )
     except Bands.DoesNotExist:
+        image_location = lastfm_band_image(name)
         Bands.objects.create(
             name=name,
+            image=image_location,
             reason=reason,
             source=source,
             scrapped_from=scrapped,
         )
         print '{} - {}'.format(name, scrapped)
-        logger.info('Band added: {} - {}'.format(
-            name, source)
-        )
+        logger.info('Band added: {} - {}'.format(name, source))
     else:
         if band.reason != reason:
             logger.info(
@@ -186,3 +186,32 @@ def fix_html_codes(a_string):
     match = '/[^<]*(<a href="([^"]+)">([^<]+)<\/a>)/g'
     a_string = re.sub(match, '', a_string)
     return a_string
+
+
+def lastfm_band_image(name):
+    password_hash = pylast.md5(settings.LASTFM_PASSWORD)
+    lastfm = pylast.LastFMNetwork(
+        api_key=settings.LASTFM_API_KEY,
+        api_secret=settings.LASTFM_API_SECRET,
+        username=settings.LASTFM_USERNAME,
+        password_hash=password_hash,
+    )
+
+    try:
+        image_url = lastfm.get_artist(name).get_cover_image()
+    except pylast.WSError:
+        image_location = join(settings.MEDIA_URL, "img/missing.png")
+    else:
+        friendly_name = "".join(
+            [c for c in name if c.isalpha() or c.isdigit() or c == ' ']
+        ).rstrip()
+        image_name = "img/{}.{}".format(
+            friendly_name, image_url.split('.')[-1:][0]
+        )
+        full_location = join(settings.MEDIA_ROOT, image_name)
+        local_image, __ = urllib.urlretrieve(image_url, full_location)
+        image_location = join(settings.MEDIA_URL, image_name)
+        if not exists(local_image):
+            image_location = join(settings.MEDIA_URL, "img/missing.png")
+
+    return image_location

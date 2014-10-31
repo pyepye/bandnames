@@ -3,12 +3,13 @@
 
 {% block title %}Band Names | {{ band.name }}{% endblock title %}
 
-{% block page_title %}Band: {{ band.name }}{% endblock page_title %}
+{% block page_title %}{{ band.name }}{% endblock page_title %}
 
 {% block content %}
     <div class="big-band">
         <div class="well">
-            <p>{{ band.reason }}</p>
+            <img src="{{ band.image }}" alt="{{ band.name }} picture"/>
+            <p class="reason" >{{ band.reason }}</p>
             <p class="links">
                 <a href="{{ band.source }}">source</a> | <a href="{{ band.source }}">report</a>
             </p>

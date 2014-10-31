@@ -6,10 +6,21 @@
   height: 190px;
 }
 
+.big-band p.reason {
+  font-size: 1.4em;
+}
+
 .big-band .well p.links {
   float: right;
 }
 
 .clear {
     clear: both;
+}
+
+.well > img {
+    height: 200px;
+    float: left;
+    margin-right: 20px;
+    border: 1px solid black;
 }

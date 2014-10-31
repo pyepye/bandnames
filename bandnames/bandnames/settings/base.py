@@ -46,7 +46,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, '.db')),
+        'NAME': normpath(join(DJANGO_ROOT, 'bandnames.db')),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -248,3 +248,8 @@ INSTALLED_APPS += (
 )
 
 ########## END SOUTH CONFIGURATION
+
+LASTFM_API_KEY = "84a2beb9274a5eded8608d6acfe11224"
+LASTFM_API_SECRET = "6c5ad22d78591d0282a47d8104ac0d47"
+LASTFM_USERNAME = "pyepyee"
+LASTFM_PASSWORD = "password1"  # get_env_setting('LASTFM_PASSWORD')

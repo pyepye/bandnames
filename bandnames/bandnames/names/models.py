@@ -3,6 +3,7 @@ from django.db import models
 
 class Bands(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="/img/")
     reason = models.CharField(max_length=3000)
     source = models.CharField(max_length=200)
     scrapped_from = models.CharField(max_length=200)

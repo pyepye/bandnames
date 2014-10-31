@@ -17,10 +17,14 @@ class BandList(TemplateView):
         if request.GET.get('search'):
             band_list = Bands.objects.filter(
                 name__contains=request.GET['search']
-            )
+            ).extra(
+                select={'lower_name': 'lower(name)'}
+            ).order_by('lower_name')
             context['search_term'] = request.GET['search']
         else:
-            band_list = Bands.objects.all()
+            band_list = Bands.objects.all().extra(
+                select={'lower_name': 'lower(name)'}
+            ).order_by('lower_name')
 
         paginator = Paginator(band_list, 25)
 
