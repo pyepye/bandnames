@@ -95,3 +95,16 @@ LOGGING = {
         }
     }
 }
+
+########## DATABASE CONFIGURATION
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': normpath(join(DJANGO_ROOT, '.db')),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+########## END DATABASE CONFIGURATION
