@@ -22,7 +22,7 @@
         <h3>Search results for the search '{{ search_term }}':</h3>
 
     {% endif %}
-
+    <div id="band-list">
     {% for band in bands %}
         {% url 'bandinfo' band.pk as band_url %}
         <div class="col-lg-6">
@@ -35,6 +35,7 @@
     {% empty %}
         <p>Sorry, no bands were found with the name {{ search_term }}.</p>
     {% endfor %}
+    </div>
     {% if bands|length > 1 %}
         <ul class="pagination pagination-lg">
             {% if bands.has_previous %}

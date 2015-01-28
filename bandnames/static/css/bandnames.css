@@ -2,6 +2,11 @@
   margin: 30px 20px;
 }
 
+.container #band-list {
+  float: left;
+  width: 100%;
+}
+
 .well.bands {
   height: 190px;
 }
