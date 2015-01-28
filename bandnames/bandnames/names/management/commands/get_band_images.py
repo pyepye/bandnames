@@ -16,11 +16,11 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         for band in Bands.objects.all():
-            band.image = lastfm_band_image(band.name)
+            band.image = lastfm_band_image(band)
             band.save()
 
 
-def lastfm_band_image(name):
+def lastfm_band_image(band):
     password_hash = pylast.md5(settings.LASTFM_PASSWORD)
     lastfm = pylast.LastFMNetwork(
         api_key=settings.LASTFM_API_KEY,
@@ -30,12 +30,14 @@ def lastfm_band_image(name):
     )
 
     try:
-        image_url = lastfm.get_artist(name).get_cover_image()
+        image_url = lastfm.get_artist(band.name).get_cover_image()
         friendly_name = "".join(
-            [c for c in name if c.isalpha() or c.isdigit() or c == ' ']
+            [c for c in band.name if c.isalpha() or c.isdigit() or c == ' ']
         ).rstrip()
-        image_name = "img/{}.{}".format(
-            friendly_name, image_url.split('.')[-1:][0]
+        image_name = "img/{}_{}.{}".format(
+            band.id,
+            friendly_name.encode('ascii','ignore'),
+            image_url.split('.')[-1:][0],
         )
     except (pylast.WSError, AttributeError):
         image_location = join(settings.MEDIA_URL, "img/missing.png")
