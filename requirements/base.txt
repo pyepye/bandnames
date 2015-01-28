@@ -7,3 +7,4 @@ dj-database-url==0.3.0
 requests==2.4.3
 pylast==1.0.0
 Pillow==2.6.1
+html2text==2014.12.29

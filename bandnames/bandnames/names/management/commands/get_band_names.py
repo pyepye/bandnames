@@ -4,6 +4,7 @@ import logging
 import requests
 
 from bs4 import BeautifulSoup
+import html2text
 
 from django.core.management.base import NoArgsCommand
 
@@ -62,6 +63,7 @@ def get_band_wiki():
                         artist_desc = artist_desc.replace(
                             last_anchor.get_text().encode('utf-8'), ''
                         )
+                        artist_desc = clean_description(artist_desc)
                     except IndexError:
                         pass
                     else:
@@ -131,7 +133,7 @@ def get_band_rateyourmusic():
                 artist_name, artist_desc = artist_info.split(
                     '</a></b><br><br>'
                 )
-                artist_desc = fix_html_codes(artist_desc)
+                artist_desc = clean_description(artist_desc)
                 add_band(artist_name, artist_desc, url, url)
 
 
@@ -206,3 +208,14 @@ def fix_html_codes(a_string):
     match = '/[^<]*(<a href="([^"]+)">([^<]+)<\/a>)/g'
     a_string = re.sub(match, '', a_string)
     return a_string
+
+def clean_description(description):
+    h = html2text.HTML2Text()
+    h.ignore_links = True
+    description = h.handle(description.decode('utf8'))
+    description = re.sub(
+        re.compile(r'[\[0-9\]]', re.DOTALL), 
+        '',
+        description,
+    )
+    return description.encode('utf-8')    
