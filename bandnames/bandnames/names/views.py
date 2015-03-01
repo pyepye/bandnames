@@ -26,7 +26,7 @@ class BandList(TemplateView):
                 select={'lower_name': 'lower(name)'}
             ).order_by('lower_name')
 
-        paginator = Paginator(band_list, 25)
+        paginator = Paginator(band_list, 26)
 
         page = request.GET.get('page')
         try:
