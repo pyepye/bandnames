@@ -11,21 +11,18 @@
 </head>
 <body>
 
-<main class="main">
-    <div class="header">
-        <h1><a href="{% url 'band_list' %}"><span>BN</span> | Band Names</a></h1>
-        <!--{# <nav>
-            <ul>
-                <li><a href="/about">About</a></li>
-                <li><a href="/submit">Help Us / Add a band</a></li>
-            </ul>
-        </nav> #}-->
-    </div>
-  {% block content %}
-  {% endblock content %}
+<main class="front">
+    <h1>B<span>N</span></h1>
+    <h2>Band<span> Names</span></h2>
+    <p class="link"><a href="{% url 'band_list' %}">Browse all the bands</a></p>
+    <!-- {# <p class="link"><a href="/submit">How to help</a></p> #} -->
+    <form action="{% url 'band_list' %}" method="get">
+        <input type="text" name="search" id="search">
+        <input type="submit" value="Search">
+    </form>
 </main>
 
-<footer role="contentinfo" class="footer-main">
+<footer role="contentinfo" class="footer-front">
     <small>Created by <a href="http://mattpye.com">Matt Pye</a></small><br>
     <small>Copyright &copy; <time datetime="2015">2015</time> All rights reserved.</small>
 </footer>

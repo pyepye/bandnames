@@ -1,31 +1,24 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}Band Names | All the Bands{% endblock title %}
-
-{% block page_title %}All the Bands{% endblock page_title %}
-
 {% block content %}
 
+<div class="container">
+
     <form class="search" method="get">
-        <div class="form-group">
-            <div class="input-group">
-                <input name="search" type="text" class="form-control" value={{ search_term }}>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default">Search</button>
-                </span>
-            </div>
-        </div>
+        <input name="search" type="text" class="form-control" value={{ search_term }}>
+        <input type="submit" value="Search">
     </form>
 
     {% if search_term %}
+        <p><a href="{% url 'band_list' %}">< Back to the list</a></p>
         <h3>Search results for the search '{{ search_term }}':</h3>
-
     {% endif %}
+
     <div id="band-list">
     {% for band in bands %}
         {% url 'bandinfo' band.pk as band_url %}
-        <div class="col-lg-6">
+        <div class="band-wrap">
             <div class="well bands">
                 <h3><a href="{{ band_url }}">{{ band.name }}</a></h3>
                 <p>{{ band.reason|truncatechars:150 }}</p>
@@ -33,7 +26,12 @@
             </div>
         </div>
     {% empty %}
-        <p>Sorry, no bands were found with the name {{ search_term }}.</p>
+        <div class="no-results">
+            <p>Sorry, no bands were found with the name '{{ search_term }}'.</p>
+            <p>You not have 2 choices:</p>
+            <p>1) Go back to the <a href="{% url 'band_list' %}">band list</a></p>
+            <p>2) If you know how this band got it's name, please help us and add <a href="#">a new band</a>.</p>
+        </div>
     {% endfor %}
     </div>
     {% if bands|length > 1 %}
@@ -59,5 +57,5 @@
             {% endif %}
         <ul>
     {% endif %}
-
+</div>
 {% endblock content %}

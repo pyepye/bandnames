@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}Band Names | {{ band.name }}{% endblock title %}
-
-{% block page_title %}{{ band.name }}{% endblock page_title %}
-
 {% block content %}
-    <div class="big-band">
+    <div class="band-detail">
         <div class="well">
+            <h2>{{ band.name }}</h2>
             <img src="{{ band.image }}" alt="{{ band.name }} picture"/>
             <p class="reason" >{{ band.reason }}</p>
             <p class="links">
                 <a href="{{ band.source }}">source</a> | <a href="{{ band.source }}">report</a>
             </p>
-            <div class="clear"></div>
         </div>
     </div>
+    <p><a href="{% url 'band_list' %}">< Back to the list</a></p>
 {% endblock content %}

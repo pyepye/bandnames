@@ -11,8 +11,8 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^$', TemplateView.as_view(template_name='base.html')),
-    url(r'^list/$', BandList.as_view(), name='band_list'),
+    url(r'^$', TemplateView.as_view(template_name='front.html')),
+    url(r'^bands/$', BandList.as_view(), name='band_list'),
     url(r'^band/(?P<band_id>\d+)/$', BandDetail.as_view(), name='bandinfo'),
     # Examples:
     # url(r'^$', 'bandnames.views.home', name='home'),
