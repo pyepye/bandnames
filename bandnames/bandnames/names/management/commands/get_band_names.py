@@ -214,8 +214,8 @@ def clean_description(description):
     h.ignore_links = True
     description = h.handle(description.decode('utf8'))
     description = re.sub(
-        re.compile(r'[\[0-9\]]', re.DOTALL), 
+        re.compile(r'[\[0-9\]]', re.DOTALL),
         '',
         description,
     )
-    return description.encode('utf-8')    
+    return description.encode('utf-8')

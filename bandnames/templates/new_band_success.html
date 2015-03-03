@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="main">
+
+        <h2>Thank You</h3>
+        <p>We are reviewing the new bands submitted to all the time and we will get to yours shortly.</p>
+        <p>If you left your email address we will get in touch.</p>
+        <a href="{% url 'band_list' %}">< Back to the list</a>
+    </div>
+{% endblock content %}

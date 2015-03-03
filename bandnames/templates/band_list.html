@@ -17,7 +17,7 @@
 
     <div id="band-list">
     {% for band in bands %}
-        {% url 'bandinfo' band.pk as band_url %}
+        {% url 'band_info' band.pk as band_url %}
         <div class="band-wrap">
             <div class="well bands">
                 <h3><a href="{{ band_url }}">{{ band.name }}</a></h3>

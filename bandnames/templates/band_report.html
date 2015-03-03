@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="main">
+    <p>So you think our sources as to how {{ band.name }} got their name is wrong?</p>
+    <p>Please please show us why:</p>
+
+    {% if form.errors %}
+        <p>You need to make sure the following fields are filled out:</p>
+        <ul>{% for error in form.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form class="pageform reported" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+
+    <div class="band-detail">
+        <div class="well">
+            <h2>{{ band.name }}</h2>
+            <img src="{{ band.image }}" alt="{{ band.name }} picture"/>
+            <p class="reason" >{{ band.reason }}</p>
+        </div>
+    </div>
+    <a href="{% url 'band_info' band.pk %}">< Back to {{ band.name }}</a>
+</div>
+{% endblock content %}

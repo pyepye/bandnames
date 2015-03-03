@@ -18,6 +18,7 @@ class Command(NoArgsCommand):
         for band in Bands.objects.all():
             band.image = lastfm_band_image(band)
             band.save()
+            print "Got image for {}".format(band)
 
 
 def lastfm_band_image(band):
@@ -36,7 +37,7 @@ def lastfm_band_image(band):
         ).rstrip()
         image_name = "img/{}_{}.{}".format(
             band.id,
-            friendly_name.encode('ascii','ignore'),
+            friendly_name.encode('ascii', 'ignore'),
             image_url.split('.')[-1:][0],
         )
     except (pylast.WSError, AttributeError):

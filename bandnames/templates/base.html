@@ -14,12 +14,13 @@
 <main class="main">
     <div class="header">
         <h1><a href="{% url 'band_list' %}"><span>BN</span> | Band Names</a></h1>
-        <!--{# <nav>
+        <nav>
             <ul>
-                <li><a href="/about">About</a></li>
-                <li><a href="/submit">Help Us / Add a band</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'new_band' %}">Help Us / Add a band</a></li>
+                <li><a href="{% url 'band_list' %}">The List</a></li>
             </ul>
-        </nav> #}-->
+        </nav>
     </div>
   {% block content %}
   {% endblock content %}

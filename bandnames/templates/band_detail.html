@@ -2,15 +2,21 @@
 {% load staticfiles %}
 
 {% block content %}
+<div class="main">
+    {% if request.GET.reported %}
+        <p class="reported">Thank you reporting '{{ band.name }}' as wrong. We are going to look into it and get it fixed up soon.</p>
+    {% endif %}
+
     <div class="band-detail">
         <div class="well">
             <h2>{{ band.name }}</h2>
             <img src="{{ band.image }}" alt="{{ band.name }} picture"/>
             <p class="reason" >{{ band.reason }}</p>
             <p class="links">
-                <a href="{{ band.source }}">source</a> | <a href="{{ band.source }}">report</a>
+                <a href="{% url 'band_report' band.pk %}">Report</a> | <a href="{{ band.source }}" target="_blank">Source</a>
             </p>
         </div>
     </div>
-    <p><a href="{% url 'band_list' %}">< Back to the list</a></p>
+    <a class="back-link" href="{% url 'band_list' %}">< Back to the list</a>
+</div>
 {% endblock content %}
