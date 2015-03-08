@@ -142,19 +142,22 @@ def get_band_rateyourmusic_movies():
            'bands_named_after_movies_/')
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
     if req.status_code == 200:
-        html = req.content.replace(
+        # Stop HTMLParseError
+        content = req.content.replace(
             '\n', '').replace(
             '\t', '').replace(
             '  ', ' ').replace(
             '&nbsp;', ' ')
-        soup = BeautifulSoup(html)
-        section = soup.find(id="user_list")
-        bands = section.find_all('a', class_='list_artist')
+        soup = BeautifulSoup(content)
+        bands = soup.find_all('td', class_='main_entry')
         for band in bands:
-            name = band.text
-            reason = band.parent.parent.text.replace(name, '').replace(
-                band.parent.parent.find('a', class_="normal_link").text, '')
-            add_band(name, reason, url, url)
+            name = band.find_next(class_="list_artist").text.encode('utf-8')
+            try:
+                reason = band.text.split('\r')[1].encode('utf-8')
+            except IndexError:
+                pass
+            else:
+                add_band(name, reason, url, url)
 
 
 def add_band(name, reason, source, scrapped):
@@ -208,6 +211,7 @@ def fix_html_codes(a_string):
     match = '/[^<]*(<a href="([^"]+)">([^<]+)<\/a>)/g'
     a_string = re.sub(match, '', a_string)
     return a_string
+
 
 def clean_description(description):
     h = html2text.HTML2Text()
