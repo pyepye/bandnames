@@ -1,9 +1,0 @@
-Bugs
-----
-CSS not working on heroku
-
-
-Features
---------
-Report bad reason
-Submit a new one
