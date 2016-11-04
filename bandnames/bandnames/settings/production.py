@@ -1,5 +1,3 @@
-"""Production settings and globals."""
-
 from __future__ import absolute_import
 
 import os
@@ -12,9 +10,7 @@ STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static')),
 )
 
-ALLOWED_HOSTS = [
-    '.herokuapp.com', '192.168.1.100', '127.0.0.1', 'bandnames.mattpye.com'
-]
+ALLOWED_HOSTS = ['127.0.0.1', 'bandnames.mattpye.com']
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
