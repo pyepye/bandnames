@@ -2,11 +2,11 @@
 import re
 import logging
 import requests
+from optparse import make_option
 
-from bs4 import BeautifulSoup
 import html2text
-
-from django.core.management.base import NoArgsCommand
+from bs4 import BeautifulSoup
+from django.core.management.base import BaseCommand
 
 from bandnames.names.models import Bands
 from bandnames.names.management.commands.get_band_images import (
@@ -16,16 +16,27 @@ from bandnames.names.management.commands.get_band_images import (
 logger = logging.getLogger(__name__)
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
-    def handle_noargs(self, **options):
-        get_band_wiki()
-        get_band_wiki_songs()
-        get_band_rateyourmusic()
-        get_band_rateyourmusic_movies()
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '-t',
+            '--test',
+            action='store_true',
+            dest='test',
+            default=False,
+            help='Run in test mode (only get one band from each source)'
+        ),
+    )
+
+    def handle(self, *args, **options):
+        get_band_wiki(options['test'])
+        get_band_wiki_songs(options['test'])
+        get_band_rateyourmusic(options['test'])
+        get_band_rateyourmusic_movies(options['test'])
 
 
-def get_band_wiki():
+def get_band_wiki(test):
     url = 'http://en.wikipedia.org/wiki/List_of_band_name_etymologies'
     logger.info(url)
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
@@ -48,8 +59,12 @@ def get_band_wiki():
                     ignore
                 ):
                     anchors = li.find_all('a')
-                    last_anchor = li.find_all('a')[len(anchors)-1]
-                    ref_url = get_wiki_ref_from_achor(soup, last_anchor)
+                    try:
+                        last_anchor = li.find_all('a')[len(anchors) - 1]
+                    except IndexError:
+                        ref_url = ''
+                    else:
+                        ref_url = get_wiki_ref_from_achor(soup, last_anchor)
                     if not ref_url:
                         ref_url = url
                     artist_info = li.get_text().split(u'ÔÇö', 1)
@@ -68,11 +83,12 @@ def get_band_wiki():
                         pass
                     else:
                         add_band(artist_name, artist_desc, ref_url, url)
+                        if test:
+                            return
 
 
-def get_band_wiki_songs():
-    url = ('http://en.wikipedia.org/wiki/List_of_bands_named_after_other_'
-           'bands%27_songs')
+def get_band_wiki_songs(test):
+    url = 'http://en.wikipedia.org/wiki/List_of_bands_named_after_other_bands%27_songs'  # NOQA
     logger.info(url)
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
     if req.status_code == 200:
@@ -94,8 +110,12 @@ def get_band_wiki_songs():
                 ]
                 if li.find_previous('h2').find_next('span').string in ignore:
                     anchors = li.find_all('a')
-                    last_anchor = li.find_all('a')[len(anchors)-1]
-                    ref_url = get_wiki_ref_from_achor(soup, last_anchor)
+                    try:
+                        last_anchor = li.find_all('a')[len(anchors) - 1]
+                    except IndexError:
+                        ref_url = ''
+                    else:
+                        ref_url = get_wiki_ref_from_achor(soup, last_anchor)
                     if not ref_url:
                         ref_url = url
                     artist_info = li.get_text().split(u' after', 1)
@@ -110,14 +130,15 @@ def get_band_wiki_songs():
                         artist_info[1].strip().encode('utf-8')
                     )
                     add_band(artist_name, artist_desc, ref_url, url)
+                    if test:
+                        return
 
 
-def get_band_rateyourmusic():
+def get_band_rateyourmusic(test):
     artist_rows = []
     grabbed_artists = 0
     for num in range(1, 11):
-        url = ('http://rateyourmusic.com/list/DanFalco/why_are_they_called_dur'
-               'an_duran__a_guide_to_band_name_etymologies/{}/'.format(num))
+        url = 'http://rateyourmusic.com/list/DanFalco/why_are_they_called_duran_duran__a_guide_to_band_name_etymologies/{}/'.format(num)  # NOQA
         logger.info(url)
         req = requests.get(url, headers={'User-Agent': "Magic Browser"})
         if req.status_code == 200:
@@ -130,16 +151,22 @@ def get_band_rateyourmusic():
 
             for artist_html in artist_rows:
                 artist_info = artist_html.split('list_artist">')[1]
-                artist_name, artist_desc = artist_info.split(
-                    '</a></b><br><br>'
-                )
+                try:
+                    artist_name, artist_desc = artist_info.split(
+                        '</a></b><br><br>'
+                    )
+                except ValueError:
+                    artist_name, artist_desc = artist_info.split(
+                        '</a></b><span class="hide-for-small"><br><br>'
+                    )
                 artist_desc = clean_description(artist_desc)
                 add_band(artist_name, artist_desc, url, url)
+                if test:
+                    return
 
 
-def get_band_rateyourmusic_movies():
-    url = ('http://www.rateyourmusic.com/list/EverythingEvil/'
-           'bands_named_after_movies_/')
+def get_band_rateyourmusic_movies(test):
+    url = 'http://www.rateyourmusic.com/list/EverythingEvil/bands_named_after_movies_/'  # NOQA
     req = requests.get(url, headers={'User-Agent': "Magic Browser"})
     if req.status_code == 200:
         # Stop HTMLParseError
@@ -158,6 +185,8 @@ def get_band_rateyourmusic_movies():
                 pass
             else:
                 add_band(name, reason, url, url)
+                if test:
+                    return
 
 
 def add_band(name, reason, source, scrapped):

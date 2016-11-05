@@ -12,7 +12,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^$', TemplateView.as_view(template_name='front.html')),
+    url(r'^$', TemplateView.as_view(template_name='front.html'), name='home'),
     url(r'^bands/$', BandList.as_view(), name='band_list'),
     url(r'^band/(?P<band_id>\d+)/$', BandDetail.as_view(), name='band_info'),
     url(r'^band/(?P<band_id>\d+)/report/$', BandReport.as_view(), name='band_report'),  # NOQA

@@ -7,10 +7,8 @@ Tests
 
 ToDo
 ----
-* Tests
-* Report bad reason
+* Test
+ - New band
+ - Report band
+* Move names urls
 * Submit a new one
-
-Bugs
-----
-* CSS not working on heroku
