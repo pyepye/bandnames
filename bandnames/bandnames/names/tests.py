@@ -3,8 +3,7 @@ from django.core.urlresolvers import reverse
 from django.test import Client
 from django.test import TestCase
 
-
-from bandnames.names.models import Bands
+from bandnames.names.models import Bands, ReportBand
 
 
 class BandNamesBasePagesTest(TestCase):
@@ -69,6 +68,142 @@ class BandNamesTest(TestCase):
         self.assertTrue(response.content.count(h2) == 1)
         self.assertTrue(response.content.count(self.band1.reason) == 1)
 
+
+class BandNamesReportTest(TestCase):
+
+    def setUp(self):
+        self.band1 = Bands.objects.create(
+            name='Some Band Name',
+            reason='First band reason',
+            source='test',
+            scrapped_from='test',
+        )
+        self.band2 = Bands.objects.create(
+            name='Another Band Name',
+            reason='Second band reason',
+            source='test',
+            scrapped_from='test',
+        )
+        self.client = Client()
+
+    def test_band_report_page(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        response = self.client.get(report_url)
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(self.band1 == response.context['band'])
+
+    def test_band_report(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        email = 'test@example.com'
+        source = 'http://example.com'
+        reason = 'This is a reason'
+        name = 'Test'
+        data = {
+            'reporter_email': [email],
+            'source': [source],
+            'reason': [reason],
+            'reporter_name': [name]
+        }
+        response = self.client.post(report_url, data=data)
+        self.assertTrue(response.status_code == 302)
+        report = ReportBand.objects.get(band=self.band1)
+        self.assertTrue(report.reporter_email == email)
+        self.assertTrue(report.source == source)
+        self.assertTrue(report.reason == reason)
+        self.assertTrue(report.reporter_name == name)
+        report.delete()
+
+    def test_band_report_no_email(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        source = 'http://example.com'
+        reason = 'This is a reason'
+        name = 'Test'
+        data = {
+            'source': [source],
+            'reason': [reason],
+            'reporter_name': [name]
+        }
+        response = self.client.post(report_url, data=data)
+        self.assertTrue(response.status_code == 302)
+        report = ReportBand.objects.get(band=self.band1)
+        self.assertTrue(report.source == source)
+        self.assertTrue(report.reason == reason)
+        self.assertTrue(report.reporter_name == name)
+        report.delete()
+
+    def test_band_report_no_name(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        email = 'test@example.com'
+        source = 'http://example.com'
+        reason = 'This is a reason'
+        data = {
+            'reporter_email': [email],
+            'source': [source],
+            'reason': [reason],
+        }
+        response = self.client.post(report_url, data=data)
+        self.assertTrue(response.status_code == 302)
+        report = ReportBand.objects.get(band=self.band1)
+        self.assertTrue(report.reporter_email == email)
+        self.assertTrue(report.source == source)
+        self.assertTrue(report.reason == reason)
+        report.delete()
+
+    def test_band_report_bad_email(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        email = 'test'
+        source = 'http://example.com'
+        reason = 'This is a reason'
+        name = 'Test'
+        data = {
+            'reporter_email': [email],
+            'source': [source],
+            'reason': [reason],
+            'reporter_name': [name]
+        }
+        response = self.client.post(report_url, data=data)
+        # import ipdb; ipdb.set_trace()
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(report_url == response.request['PATH_INFO'])
+        self.assertIn('reporter_email', response.context['form'].errors)
+        with self.assertRaises(ReportBand.DoesNotExist):
+            ReportBand.objects.get(band=self.band1)
+
+        def test_band_report_no_reason(self):
+            report_url = reverse('band_report', args=(self.band1.id,))
+            email = 'test@example.com'
+            source = 'http://example.com'
+            name = 'Test'
+            data = {
+                'reporter_email': [email],
+                'source': [source],
+                'reporter_name': [name]
+            }
+            response = self.client.post(report_url, data=data)
+            # import ipdb; ipdb.set_trace()
+            self.assertTrue(response.status_code == 200)
+            self.assertTrue(report_url == response.request['PATH_INFO'])
+            self.assertIn('reason', response.context['form'].errors)
+            with self.assertRaises(ReportBand.DoesNotExist):
+                ReportBand.objects.get(band=self.band1)
+
+    def test_band_report_no_source(self):
+        report_url = reverse('band_report', args=(self.band1.id,))
+        email = 'test@example.com'
+        reason = 'This is a reason'
+        name = 'Test'
+        data = {
+            'reporter_email': [email],
+            'reason': [reason],
+            'reporter_name': [name]
+        }
+        response = self.client.post(report_url, data=data)
+        # import ipdb; ipdb.set_trace()
+        self.assertTrue(response.status_code == 200)
+        self.assertTrue(report_url == response.request['PATH_INFO'])
+        self.assertIn('source', response.context['form'].errors)
+        with self.assertRaises(ReportBand.DoesNotExist):
+            ReportBand.objects.get(band=self.band1)
 
 # class BandNamesManagementCommandsTest(TestCase):
 
