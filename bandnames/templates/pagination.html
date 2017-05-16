@@ -1,0 +1,45 @@
+{% if bands|length > 26 %}
+
+<div class="pagination mdl-cell mdl-cell--5-col-desktop mdl-cell--6-col-tablet">
+  <div>
+    {% if bands.has_previous %}
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+        <a href="?{% if search_term %}search={{ search_term }}&{% endif %}page={{ bands.previous_page_number }}">
+          &laquo;
+        </a>
+      </button>
+    {% else %}
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" disabled >
+        &laquo;
+      </button>
+    {% endif %}
+
+    {% for num in bands.paginator.page_range %}
+        {% ifequal num bands.number %}
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" disabled >
+              {{ num }}
+            </button>
+        {% else %}
+          <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+            <a class="mdl-button-a" href="?{% if search_term %}search={{ search_term }}&{% endif %}page={{ num }}">
+              {{ num }}
+            </a>
+          </button>
+        {% endifequal %}
+    {% endfor %}
+
+    {% if bands.has_next %}
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+        <a class="mdl-button-a" href="?page={{ bands.next_page_number }}">
+          &raquo;
+        </a>
+      </button>
+    {% else %}
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" disabled >
+        &raquo;
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+{% endif %}

@@ -2,33 +2,152 @@
 <!DOCTYPE html>
 <html lang="en"><head>
     <meta charset="utf-8">
-    <title>Band Names</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="" name="description">
+    <title>Band Names</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="{% static 'img/favicon.ico' %}">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Band Names">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'img/favicon.ico' %}">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="{% static 'img/favicon.ico' %}">
+    <meta name="msapplication-TileColor" content="#3372df">
+
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
-    <link href="{% static 'css/normalizecss' %}" rel="stylesheet">
-    <link href="{% static 'css/bandnames.css' %}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Lato:400,100' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+    {# <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> #}
+
 </head>
 <body>
+<style>
+.mdh-expandable-search {
+  /*margin: 0 50px;*/
+  align-items: center;
+  justify-content: center;
+}
 
-<main class="main">
-    <div class="header">
-        <h1><a href="{% url 'band_list' %}"><span>BN</span> | Band Names</a></h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'new_band' %}">Help Us / Add a band</a></li>
-                <li><a href="{% url 'band_list' %}">The List</a></li>
-            </ul>
-        </nav>
+.mdh-expandable-search form {
+  max-width: 600px;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form,
+.mdh-expandable-search input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.mdh-expandable-search .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.mdh-expandable-search input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #FFFFFF;
+  background-color: #727db9;
+  padding: 0px 35px 0px 70px;
+  height: 40px;
+  line-height: 40px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.mdh-expandable-search input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFFFFF;
+}
+.mdh-expandable-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #FFFFFF;
+}
+
+</style>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Band Names</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+
+      {# Search https://codepen.io/SeanBannister/pen/BNVvVQ #}
+      <div class="mdh-expandable-search mdl-cell--hide-phone">
+        <i class="material-icons">search</i>
+        <form action="{% url 'band_list' %}" method="get">
+          <input type="text" name="search" id="search" placeholder="Search" size="1">
+        </form>
+      </div>
+
+      <div class="mdl-layout-spacer"></div>
+
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="{% url 'band_list' %}">Bands</a>
+        <a class="mdl-navigation__link" href="{% url 'about' %}">About</a>
+        <a class="mdl-navigation__link" href="{% url 'new_band' %}">Add a band</a>
+      </nav>
     </div>
-  {% block content %}
-  {% endblock content %}
-</main>
-
-<footer role="contentinfo" class="footer-main">
-    <small>Created by <a href="http://mattpye.com">Matt Pye</a></small><br>
-    <small>Copyright &copy; <time datetime="2015">2015</time> All rights reserved.</small>
-</footer>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Band Names</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="{% url 'band_list' %}">Bands</a>
+      <a class="mdl-navigation__link" href="{% url 'about' %}">About</a>
+      <a class="mdl-navigation__link" href="{% url 'new_band' %}">Add a band</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </main>
+  <div class="mdl-layout-spacer"></div>
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer--bottom-section">
+      Ceeated by <a href="http://mattpye.com">Matt Pye</a> -
+      Copyright &copy; <time datetime="2017">2017</time> All rights reserved.
+    </div>
+  </footer>
+</div>
 </body>
 </html>
