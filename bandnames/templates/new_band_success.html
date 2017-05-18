@@ -2,11 +2,16 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="main">
 
-        <h2>Thank You</h3>
+<section class="section--center mdl-grid mdl-grid--no-spacing">
+    <div class="mdl-layout-spacer"></div>
+    <div class="detail generic mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
+        <h4>Thank You</h4>
         <p>We are reviewing the new bands submitted to all the time and we will get to yours shortly.</p>
         <p>If you left your email address we will get in touch.</p>
-        <a href="{% url 'band_list' %}">< Back to the list</a>
+        <a href="{% url 'band_list' %}">Back to the list</a>
     </div>
+    <div class="mdl-layout-spacer"></div>
+</section>
+
 {% endblock content %}

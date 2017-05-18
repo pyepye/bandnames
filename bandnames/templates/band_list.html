@@ -3,46 +3,7 @@
 
 {% block content %}
 <style>
-.section--center.mdl-grid--no-spacing {
-  justify-content: center
-}
 
-.mdl-card__title {
-  color: #fff;
-  height: 176px;
-}
-.mdl-card__title a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.mdl-cell {
-  margin: 20px auto;
-}
-.mdl-button--fab {
-  width: 30px;
-  min-width: 30px;
-  height: 30px;
-}
-
-/* Pagination */
-.no-band {
-  padding: 10px 40px 40px 40px;
-}
-
-/* Pagination */
-.mdl-button--fab {
-  width: 30px;
-  min-width: 30px;
-  height: 30px;
-}
-.pagination.mdl-cell {
-  justify-content: center
-}
-.pagination.mdl-cell > div > button.mdl-button > a {
-  text-decoration: none;
-  color: white;
-}
 </style>
 
 <section class="section--center mdl-grid--no-spacing">
@@ -60,11 +21,14 @@
     </div>
   </div>
 {% empty %}
-  <div class="no-band mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
-    <h5>No bands were found with the name '{{ search_term }}'</h5>
-    Go back to the <a href="{% url 'band_list' %}">band list</a><br/>
-    Or if you know how {{ search_term }} got their name then please help us and add how using the <a href="#">add a new band</a> feature
+  <div class="mdl-layout-spacer"></div>
+  <div class="detail generic mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
+    <h4>No bands were found with the name '{{ search_term }}'</h4>
+    <p>Go back to the <a href="{% url 'band_list' %}">band list</a></p>
+    <p>Or if you know how {{ search_term }} got their name then please help us and add how using the <a href="#">add a new band</a> feature</p>
   </div>
+  <div class="mdl-layout-spacer"></div>
+
 {% endfor %}
 
 {% include "pagination.html" %}

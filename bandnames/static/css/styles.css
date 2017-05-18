@@ -1,0 +1,205 @@
+/* BAND LIST */
+.section--center.mdl-grid--no-spacing {
+  justify-content: center
+}
+
+.mdl-card__title {
+  color: #fff;
+  height: 176px;
+}
+.mdl-card__title a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.mdl-cell {
+  margin: 20px auto;
+}
+
+/* Pagination */
+.no-band {
+  padding: 10px 40px 40px 40px;
+}
+
+/* Pagination */
+.mdl-button--fab {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+}
+.pagination.mdl-cell {
+  justify-content: center
+}
+.pagination.mdl-cell > div > button.mdl-button > a {
+  text-decoration: none;
+  color: white;
+}
+/* END BAND LIST */
+
+/* BAND DETAIL */
+main > div > section.section--center > div.detail.mdl-cell {
+  margin: 50px 0;
+}
+.mdl-cell {
+  position: relative;
+  overflow: visible;
+}
+header.mdl-cell {
+  white-space: nowrap;
+  text-align: center;
+}
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+header.mdl-cell img {
+  display:inline-block;
+  width: 100%;
+  vertical-align: middle;
+}
+header.mdl-cell:after{
+  content:"";
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  vertical-align: middle;
+}
+.detail .menu.mdl-button {
+  position: absolute;
+  right: 10px;
+}
+.detail .mdl-menu__item a {
+  text-decoration: none;
+  color: rgba(0,0,0,.87);
+}
+.band-text {
+  padding: 20px;
+}
+/* END BAND DETAIL */
+
+/* GENERIC*/
+main > div > section.section--center > div.detail.generic.mdl-cell {
+  padding: 10px 40px 40px 40px;
+}
+/* END GENERIC */
+
+/*
+  SEARCH BAR
+  Shamelessly stolen from https://codepen.io/SeanBannister/pen/BNVvVQ
+*/
+.mdh-expandable-search {
+  /*margin: 0 50px;*/
+  align-items: center;
+  justify-content: center;
+}
+
+.mdh-expandable-search form {
+  max-width: 600px;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form,
+.mdh-expandable-search input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.mdh-expandable-search {
+  /*margin: 0 50px;*/
+  align-items: center;
+  justify-content: center;
+}
+
+.mdh-expandable-search form {
+  max-width: 600px;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form,
+.mdh-expandable-search input {
+  /* Cross browser flex-grow */
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.mdh-expandable-search,
+.mdh-expandable-search form {
+  /* Cross browser inline-flex */
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+/* Position search icon */
+.mdh-expandable-search .material-icons {
+  position: relative;
+  right: -40px;
+  margin-left: -24px; /* Remove the blank space left behind by the icon being relatively positioned */
+}
+
+.mdh-expandable-search input {
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: #FFFFFF;
+  background-color: #727db9;
+  padding: 0px 35px 0px 55px;
+  height: 40px;
+  line-height: 40px; /* TODO: This was recommended for cross browser compatability of input height, check if its actually needed in modern browsers */
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+.mdh-expandable-search input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFFFFF;
+}
+.mdh-expandable-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFFFFF;
+   opacity:  1; /* Firefox gives the placeholder a reduced opacity so we have to increase it */
+}
+.mdh-expandable-search input:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #FFFFFF;
+}
+/* END SEARCH BAR */
+
+
+/* FORMS */
+.form-field {
+  width: 100%;
+}
+.mdl-textfield {
+  width: 80%;
+  margin: 0px auto;
+}
+.form-field textarea {
+  width: 100%;
+  /*border: 1px solid #ececec;*/
+}
+form > button.mdl-button {
+  margin: 20px 0;
+}
+/* END FORMS */

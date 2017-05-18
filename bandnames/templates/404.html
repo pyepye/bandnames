@@ -4,3 +4,19 @@
 {% block content %}
 <p>This is not the page you were looking for.</p>
 {% endblock content %}
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<section class="section--center mdl-grid mdl-grid--no-spacing">
+    <div class="mdl-layout-spacer"></div>
+    <div class="detail generic mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
+        <h4>404 - Sorry we couldn't find that</h4>
+        <p>Go back to the <a href="{% url 'band_list' %}">band list</a></p>
+    </div>
+    <div class="mdl-layout-spacer"></div>
+</section>
+
+{% endblock content %}

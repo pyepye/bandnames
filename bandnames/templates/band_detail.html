@@ -3,44 +3,6 @@
 
 {% block content %}
 
-<style>
-section.section--center > div.detail.mdl-cell {
-  margin-top: 50px;
-}
-.mdl-cell {
-  position: relative;
-  overflow: visible;
-}
-header.mdl-cell {
-  white-space: nowrap;
-  text-align: center;
-}
-.helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-header.mdl-cell img {
-  display:inline-block;
-  width: 100%;
-  vertical-align: middle;
-}
-header.mdl-cell:after{
-  content:"";
-  display: inline-block;
-  width: 100%;
-  height: 0;
-  vertical-align: middle;
-}
-.mdl-button {
-  position: absolute;
-  right: 10px;
-}
-.band-text {
-  padding: 20px;
-}
-</style>
-
 <section class="section--center mdl-grid mdl-grid--no-spacing">
 <div class="mdl-layout-spacer"></div>
 <div class="detail mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
@@ -49,12 +11,12 @@ header.mdl-cell:after{
       <span class="helper"></span><img src="https://ksassets.timeincuk.net/wp/uploads/sites/55/2013/08/2013ArcticMonkeys_Press_ZackeryMichael-240613-2.jpg">
     </header>
     <div class="band-text mdl-cell--7-col-desktop mdl-cell--8-col-tablet mdl-cell--12-col-phone">
-      <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+      <button id="demo-menu-lower-right" class="menu mdl-button mdl-js-button mdl-button--icon">
         <i class="material-icons">more_vert</i>
       </button>
       <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
-        <li class="mdl-menu__item">Source</li>
-        <li class="mdl-menu__item">Report</li>
+        <li class="mdl-menu__item"><a href="{{ band.source }}" target="_blank">Source</a></li>
+        <li class="mdl-menu__item"><a href="{% url 'band_report' band.pk %}">Report</a></li>
       </ul>
       <h4>{{ band.name }}</h4>
       {{ band.reason }}
@@ -63,9 +25,5 @@ header.mdl-cell:after{
 </div>
 <div class="mdl-layout-spacer"></div>
 </section>
-
-
-
-
 
 {% endblock content %}
