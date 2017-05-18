@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
-from bandnames.names.models import Bands
+from bandnames.names.models import Bands as Band
 from bandnames.names.forms import NewBandForm, ReportBandForm
 
 # Get an instance of a logger
@@ -19,14 +19,14 @@ class BandList(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         if request.GET.get('search'):
-            band_list = Bands.objects.filter(
+            band_list = Band.objects.filter(
                 name__contains=request.GET['search']
             ).extra(
                 select={'lower_name': 'lower(name)'}
             ).order_by('lower_name')
             context['search_term'] = request.GET['search']
         else:
-            band_list = Bands.objects.all().extra(
+            band_list = Band.objects.all().extra(
                 select={'lower_name': 'lower(name)'}
             ).order_by('lower_name')
 
@@ -47,7 +47,7 @@ class BandDetail(TemplateView):
     template_name = "band_detail.html"
 
     def get_context_data(self, **context):
-        context['band'] = Bands.objects.get(pk=context.get('band_id'))
+        context['band'] = Band.objects.get(name=context.get('band_name'))
         return context
 
 
@@ -55,7 +55,7 @@ class BandReport(TemplateView):
     template_name = "band_report.html"
 
     def get_context_data(self, **context):
-        context['band'] = Bands.objects.get(pk=context.get('band_id'))
+        context['band'] = Band.objects.get(name=context.get('band_name'))
         context['form'] = ReportBandForm()
         return context
 

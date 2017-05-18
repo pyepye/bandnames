@@ -14,8 +14,8 @@ urlpatterns = patterns(
     '',
     url(r'^$', TemplateView.as_view(template_name='front.html'), name='home'),
     url(r'^bands/$', BandList.as_view(), name='band_list'),
-    url(r'^band/(?P<band_id>\d+)/$', BandDetail.as_view(), name='band_info'),
-    url(r'^band/(?P<band_id>\d+)/report/$', BandReport.as_view(), name='band_report'),  # NOQA
+    url(r'^band/(?P<band_name>.*)/$', BandDetail.as_view(), name='band_info'),
+    url(r'^band/(?P<band_name>.*)/report/$', BandReport.as_view(), name='band_report'),  # NOQA
     url(r'^newband/$', NewBand.as_view(), name='new_band'),
     url(r'^newband/success/$', NewBandSuccess.as_view(), name='new_band_success'),  # NOQA
     url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),  # NOQA

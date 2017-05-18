@@ -16,7 +16,7 @@
       </button>
       <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
         <li class="mdl-menu__item"><a href="{{ band.source }}" target="_blank">Source</a></li>
-        <li class="mdl-menu__item"><a href="{% url 'band_report' band.pk %}">Report</a></li>
+        <li class="mdl-menu__item"><a href="{% url 'band_report' band.name %}">Report</a></li>
       </ul>
       <h4>{{ band.name }}</h4>
       {{ band.reason }}
