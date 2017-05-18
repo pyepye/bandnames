@@ -2,31 +2,48 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="main">
-    <p>So you think our sources as to how {{ band.name }} got their name is wrong?</p>
-    <p>Please please show us why:</p>
+
+<section class="section--center mdl-grid mdl-grid--no-spacing">
+<div class="mdl-layout-spacer"></div>
+<div class="detail generic mdl-cell mdl-cell--8-col-desktop mdl-cell--6-col-tablet mdl-cell--11-col-phone mdl-shadow--2dp">
+    <h4>How did they get their name?</h4>
+    <p>So you know the actual way {{ band.name }} got their name?</p>
 
     {% if form.errors %}
-        <p>You need to make sure the following fields are filled out:</p>
+        <p>Please make sure sure the following fields are filled out:</p>
         <ul>{% for error in form.errors %}
             <li>{{ error }}</li>
         {% endfor %}
         </ul>
     {% endif %}
 
-    <form class="pageform reported" method="post">
+    <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit" />
+        {% for field in form %}
+            <div class="form-field">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ field }}
+                    <label class="mdl-textfield__label" for="id_{{ field.name }}">{{ field.label }}</label>
+                    <span class="mdl-textfield__error">{{ field.errors }}</span>
+                </div>
+            </div>
+        {% endfor %}
+
+        <button type="submit" value="Submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Submit</button>
     </form>
 
-    <div class="band-detail">
-        <div class="well">
-            <h2>{{ band.name }}</h2>
-            <img src="{{ band.image }}" alt="{{ band.name }} picture"/>
-            <p class="reason" >{{ band.reason }}</p>
+    <div class=" mdl-grid">
+        <header class="mdl-cell mdl-cell--4-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
+          <span class="helper"></span><img src="https://ksassets.timeincuk.net/wp/uploads/sites/55/2013/08/2013ArcticMonkeys_Press_ZackeryMichael-240613-2.jpg">
+        </header>
+        <div class="band-text mdl-cell--7-col-desktop mdl-cell--8-col-tablet mdl-cell--12-col-phone">
+          <h4>{{ band.name }}</h4>
+          {{ band.reason }}
         </div>
     </div>
-    <a href="{% url 'band_info' band.pk %}">< Back to {{ band.name }}</a>
+
 </div>
+<div class="mdl-layout-spacer"></div>
+</section>
+
 {% endblock content %}
