@@ -1,6 +1,6 @@
 /* NAV */
-a.mdl-navigation__link:hover {
-  border-bottom: 3px solid white;
+.mdl-layout__header-row a.mdl-navigation__link:hover {
+  background-color: #495cc1;
 }
 /* END NAV */
 
