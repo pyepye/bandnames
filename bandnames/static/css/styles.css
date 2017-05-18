@@ -37,7 +37,7 @@ a.mdl-navigation__link:hover {
 .pagination.mdl-cell {
   justify-content: center
 }
-.pagination.mdl-cell > div > button.mdl-button > a {
+.mdl-layout-title a, .pagination.mdl-cell > div > button.mdl-button > a {
   text-decoration: none;
   color: white;
 }
