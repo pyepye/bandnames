@@ -9,4 +9,3 @@ ToDo
 ----
 * Tests
  - Fixup all tests due to design / template changes
-* Get rid of the homepage?

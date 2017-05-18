@@ -9,7 +9,7 @@ from bandnames.names.models import Bands, NewBand, ReportBand
 class BandNamesBasePagesTest(TestCase):
 
     def test_home(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('band_list'))
         self.assertTrue(response.status_code == 200)
 
     def test_about(self):
