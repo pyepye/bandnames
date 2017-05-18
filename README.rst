@@ -7,8 +7,6 @@ Tests
 
 ToDo
 ----
-* Test
- - New band
- - Report band
-* Move names urls
-* Submit a new one
+* Tests
+ - Fixup all tests due to design / template changes
+* Get rid of the homepage?
