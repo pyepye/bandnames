@@ -210,3 +210,9 @@ form > button.mdl-button {
   margin: 20px 0;
 }
 /* END FORMS */
+
+/* FOOTER */
+.mdl-mini-footer a {
+  color: white;
+}
+/* END FOOTER */
