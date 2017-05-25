@@ -1,4 +1,5 @@
-from django.core.management import call_command
+import urllib2
+# from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test import Client
 from django.test import TestCase
@@ -40,8 +41,6 @@ class BandNamesTest(TestCase):
         for band in response.context['bands']:
             self.assertIn(band, [self.band1, self.band2])
 
-        # Check HTML
-        self.assertTrue(response.content.count('<div class="band-wrap">') == 2)
         self.assertTrue(response.content.count(self.band1.name) == 1)
         self.assertTrue(response.content.count(self.band2.name) == 1)
 
@@ -51,21 +50,15 @@ class BandNamesTest(TestCase):
         self.assertTrue(response.status_code == 200)
         self.assertTrue(len(response.context['bands']) == 1)
         self.assertTrue(response.context['bands'][0] == self.band1)
-
-        # Check HTML
-        self.assertTrue(response.content.count('<div class="band-wrap">') == 1)
-        self.assertTrue(response.content.count('Search results for the search') == 1)  # NOQA
         # Once in the search box, once  in 'results for' and once in the list
-        self.assertTrue(response.content.count(self.band1.name) == 3)
+        self.assertTrue(response.content.count(self.band1.name) == 2)
 
     def test_band_details(self):
-        response = self.client.get(reverse('band_info', args=(self.band1.id,)))
+        response = self.client.get(
+            reverse('band_info', args=(self.band1.name,))
+        )
         self.assertTrue(response.status_code == 200)
         self.assertTrue(self.band1 == response.context['band'])
-
-        # Check HTML
-        h2 = '<h2>{0}</h2>'.format(self.band1.name)
-        self.assertTrue(response.content.count(h2) == 1)
         self.assertTrue(response.content.count(self.band1.reason) == 1)
 
 
@@ -87,13 +80,13 @@ class BandNamesReportTest(TestCase):
         self.client = Client()
 
     def test_band_report_page(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         response = self.client.get(report_url)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(self.band1 == response.context['band'])
 
     def test_band_report(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         email = 'test@example.com'
         source = 'http://example.com'
         reason = 'This is a reason'
@@ -114,7 +107,7 @@ class BandNamesReportTest(TestCase):
         report.delete()
 
     def test_band_report_no_email(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         source = 'http://example.com'
         reason = 'This is a reason'
         name = 'Test'
@@ -131,8 +124,8 @@ class BandNamesReportTest(TestCase):
         self.assertTrue(report.reporter_name == name)
         report.delete()
 
-    def test_band_report_no_name(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+    def test_band_report_no_reporter_name(self):
+        report_url = reverse('band_report', args=(self.band1.name,))
         email = 'test@example.com'
         source = 'http://example.com'
         reason = 'This is a reason'
@@ -150,7 +143,7 @@ class BandNamesReportTest(TestCase):
         report.delete()
 
     def test_band_report_bad_email(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         email = 'test'
         source = 'http://example.com'
         reason = 'This is a reason'
@@ -162,15 +155,16 @@ class BandNamesReportTest(TestCase):
             'reporter_name': [name]
         }
         response = self.client.post(report_url, data=data)
-        # import ipdb; ipdb.set_trace()
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('reporter_email', response.context['form'].errors)
         with self.assertRaises(ReportBand.DoesNotExist):
             ReportBand.objects.get(band=self.band1)
 
     def test_band_report_no_reason(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         email = 'test@example.com'
         source = 'http://example.com'
         name = 'Test'
@@ -180,15 +174,15 @@ class BandNamesReportTest(TestCase):
             'reporter_name': [name]
         }
         response = self.client.post(report_url, data=data)
-        # import ipdb; ipdb.set_trace()
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('reason', response.context['form'].errors)
         with self.assertRaises(ReportBand.DoesNotExist):
             ReportBand.objects.get(band=self.band1)
 
     def test_band_report_no_source(self):
-        report_url = reverse('band_report', args=(self.band1.id,))
+        report_url = reverse('band_report', args=(self.band1.name,))
         email = 'test@example.com'
         reason = 'This is a reason'
         name = 'Test'
@@ -198,8 +192,8 @@ class BandNamesReportTest(TestCase):
             'reporter_name': [name]
         }
         response = self.client.post(report_url, data=data)
-        # import ipdb; ipdb.set_trace()
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('source', response.context['form'].errors)
         with self.assertRaises(ReportBand.DoesNotExist):
@@ -295,6 +289,7 @@ class NewBandTest(TestCase):
         }
         response = self.client.post(report_url, data=data)
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('submitter_email', response.context['form'].errors)
         with self.assertRaises(NewBand.DoesNotExist):
@@ -314,6 +309,7 @@ class NewBandTest(TestCase):
         }
         response = self.client.post(report_url, data=data)
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('reason', response.context['form'].errors)
         with self.assertRaises(NewBand.DoesNotExist):
@@ -333,6 +329,7 @@ class NewBandTest(TestCase):
         }
         response = self.client.post(report_url, data=data)
         self.assertTrue(response.status_code == 200)
+        report_url = urllib2.unquote(report_url)
         self.assertTrue(report_url == response.request['PATH_INFO'])
         self.assertIn('source', response.context['form'].errors)
         with self.assertRaises(NewBand.DoesNotExist):

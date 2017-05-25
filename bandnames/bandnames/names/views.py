@@ -68,7 +68,7 @@ class BandReport(TemplateView):
             report.band = context['band']
             report.save()
             band_url = reverse_lazy(
-                'band_info', kwargs={'band_id': context['band'].id}
+                'band_info', kwargs={'band_name': context['band'].name}
             )
             url = "{}?reported=True".format(band_url)
             return HttpResponseRedirect(url)
