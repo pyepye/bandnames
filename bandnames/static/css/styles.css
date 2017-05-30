@@ -17,6 +17,8 @@
 .mdl-card__title a {
   color: #fff;
   text-decoration: none;
+  background-color: black;
+  padding: 2px;
 }
 
 .mdl-cell {
