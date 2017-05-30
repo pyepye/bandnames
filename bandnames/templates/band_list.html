@@ -7,8 +7,8 @@
 {% for band in bands %}
   {% url 'band_info' band.name as band_url %}
   <div class="mdl-cell mdl-cell--5-col-desktop mdl-cell--6-col-tablet mdl-shadow--2dp">
-    <div class="mdl-card__title" style="background: url('https://ksassets.timeincuk.net/wp/uploads/sites/55/2013/08/2013ArcticMonkeys_Press_ZackeryMichael-240613-2.jpg') center / cover;">
-      <h2 class="mdl-card__title-text"><a href="{{ band_url }}">{{ band.name }}</a></h2>
+    <div class="mdl-card__title" style="background: url('{{ band.image }}') center / cover; ">
+      <h2 class="mdl-card__title-text"><a href="{{ band_url }}" {% if band.image == '/media/img/missing.png' %}style="color: black;"{% endif %}>{{ band.name }}</a></h2>
     </div>
     <div class="mdl-card__supporting-text">{{ band.reason|truncatechars:200 }}</div>
     <div class="mdl-card__actions mdl-card--border">
