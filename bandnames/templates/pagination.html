@@ -1,4 +1,4 @@
-{% if bands|length > 26 %}
+{% if bands|length >= 26 or bands.has_previous or bands.has_next %}
 
 <div class="pagination mdl-cell mdl-cell--5-col-desktop mdl-cell--6-col-tablet">
   <div>
